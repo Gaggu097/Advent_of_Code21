@@ -9,6 +9,9 @@ def get_input(filename):
     return data
 
 
+m  = [[1,1,1,1,1], [1,9,9,9,1], [1,9,1,9,1], [1,9,9,9,1],[1,1,1,1,1]]
+
+
 
 def make_structure_from_data(data):
     matrix = []
@@ -26,7 +29,7 @@ def make_structure_from_data(data):
 
 def step(matrix):
     for i in range(0, len(matrix)):
-        for j in range(9, len(matrix[i])):
+        for j in range(0, len(matrix[i])):
            matrix[i][j] += 1
     return matrix
 
@@ -44,18 +47,23 @@ def flash(matrix, x, y):
         
         if y - 1 >= 0:
                 matrix[x][y-1] += 1
+                flash(matrix, x, y-1)
         if y + 1 < height:
                 matrix[x][y+1] += 1
+                flash(matrix, x, y+1)
 
 
 
-        # line x - 1
+        #upper line x - 1
         if x - 1 >= 0:
             matrix[x-1][y] += 1
+            flash(matrix, x-1, y)
             if y - 1 >= 0:
                 matrix[x-1][y-1] += 1
+                flash(matrix, x-1, y-1)
             if y + 1 < height:
                 matrix[x-1][y+1] += 1
+                flash(matrix, x-1, y-1)
 
 
 
@@ -63,10 +71,13 @@ def flash(matrix, x, y):
 
         if x + 1 < length:
             matrix[x+1][y] += 1
+            flash(matrix, x+1, y)
             if y + 1 < height:
                 matrix[x+1][y+1] += 1
+                flash(matrix, x+1, y+1)
             if y - 1 <= 0:
                 matrix[x+1][y-1] += 1
+                flash(matrix, x+1, y-1)
 
 
     return matrix
@@ -98,8 +109,15 @@ def sample11():
 
 
 def main():
-    sample11()
-
+    #sample11()
+    m1 = m
+    print(m1)
+    for i in range (0, 2):
+        m1 = step(m1)
+        m1 = check_flashes(m1)
+        for e in m:
+            print(e)
+        print()
 
 if __name__ == "__main__":
     main()
